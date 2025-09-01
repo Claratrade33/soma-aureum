@@ -2,13 +2,14 @@ import React from 'react';
 import './Badges.css';
 
 function Badges({ user }) {
-    const { plan } = user;
+    const plan = user.plan;
 
     return (
         <div className="badges-container">
-            <div className="badge">
-                {plan} <span>🏅</span>
-            </div>
+            <h3>Plano Atual</h3>
+            <span className={`badge badge-${plan.toLowerCase()}`}>
+                {plan}
+            </span>
         </div>
     );
 }
