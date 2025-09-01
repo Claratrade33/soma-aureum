@@ -1,103 +1,76 @@
 .dashboard-container {
-    font-family: 'Arial', sans-serif;
-    color: #FFD700; /* dourado */
-    padding: 40px 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-    background-color: #121212; /* fundo preto profundo */
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-}
-
-.dashboard-container h1, .dashboard-container h2 {
     text-align: center;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #2c003e, #5d007e);
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #fff;
 }
 
 .input-group {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 0;
+    margin: 25px 0;
 }
 
 .input-group input,
 .input-group select {
-    padding: 10px 15px;
+    margin: 5px;
+    padding: 8px 12px;
     border-radius: 10px;
-    border: 1px solid rgba(255,215,0,0.5);
-    background-color: rgba(255,255,255,0.05);
-    color: #FFD700;
-    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
 }
 
-.input-group input::placeholder {
-    color: rgba(255,215,0,0.5);
+.input-group input::placeholder,
+.input-group select::placeholder {
+    color: rgba(255, 255, 255, 0.7);
 }
 
-.input-group button {
-    padding: 12px 25px;
-    border-radius: 50px;
+button {
+    padding: 12px 30px;
+    margin: 5px;
     border: none;
-    font-weight: bold;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ffd700, #ffcc00);
     cursor: pointer;
-    background: linear-gradient(45deg, #FFD700, #FFCC00);
-    color: #121212;
+    font-weight: bold;
+    color: #4b0082;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-.input-group button:hover {
+button:hover {
     transform: scale(1.05);
-    background: linear-gradient(45deg, #FFE066, #FFD633);
+    background: linear-gradient(45deg, #ffe066, #ffda33);
+}
+
+h1, h2 {
+    text-shadow: 0 4px 10px rgba(0,0,0,0.7);
 }
 
 .table-container {
-    margin-top: 30px;
     overflow-x: auto;
+    margin-top: 20px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #1a1a1a;
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 th, td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid rgba(255,215,0,0.3);
-}
-
-th {
-    color: #FFD700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 tr:hover {
-    background-color: rgba(255,215,0,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .generate-pdf-btn {
-    display: block;
-    margin: 30px auto 0 auto;
-    padding: 12px 30px;
-    border-radius: 50px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    background: linear-gradient(45deg, #FFD700, #FFCC00);
-    color: #121212;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-
-.generate-pdf-btn:hover {
-    transform: scale(1.05);
-    background: linear-gradient(45deg, #FFE066, #FFD633);
+    margin-top: 20px;
 }
