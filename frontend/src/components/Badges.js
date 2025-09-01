@@ -1,5 +1,4 @@
 import React from 'react';
-import './Badges.css'; // Importando o CSS premium
 
 function Badges({ user }) {
     const planColors = {
@@ -11,11 +10,16 @@ function Badges({ user }) {
     };
 
     return (
-        <div className="badges-container">
-            <h2 style={{ color: '#FFD700', textAlign: 'center', marginBottom: '15px' }}>Seu Plano</h2>
-            <div className="badge" style={{ borderColor: planColors[user.plan] || 'gold' }}>
-                <span style={{ color: planColors[user.plan] || 'gold' }}>{user.plan}</span>
-            </div>
+        <div style={{ marginTop: '20px' }}>
+            <span style={{
+                padding: '10px 20px',
+                borderRadius: '20px',
+                backgroundColor: planColors[user.plan] || '#fff',
+                color: '#4b0082',
+                fontWeight: 'bold'
+            }}>
+                {user.plan} Badge
+            </span>
         </div>
     );
 }
