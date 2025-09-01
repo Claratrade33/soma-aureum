@@ -1,40 +1,29 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-// Conexão MongoDB
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/soma_aureum';
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB conectado!'))
-.catch(err => console.error('Erro ao conectar MongoDB:', err));
-
-// Chaves (se necessário futuramente)
-const privateKey = process.env.PRIVATE_KEY || 'chave_privada_teste';
-const publicKey = process.env.PUBLIC_KEY || 'chave_publica_teste';
-console.log('Chaves carregadas:', publicKey, privateKey);
-
-// Servir frontend React (Dashboard direto)
-const frontendBuildPath = path.join(__dirname, '../frontend/build');
-app.use(express.static(frontendBuildPath));
-
-// Rota raiz serve diretamente o Dashboard
-app.get('/', (req, res) => {
-  res.sendFile(path.join(frontendBuildPath, 'index.html'));
+// Rota de demo (retorna usuário fictício)
+app.get('/api/demo', (req, res) => {
+    const demoUser = {
+        name: 'Investidor VIP',
+        balance: 5000,
+        plan: 'Nenhum',
+        aportes: [1000, 2000, 1500]
+    };
+    res.json(demoUser);
 });
 
-// Outras rotas podem ser adicionadas futuramente
-// app.use('/api/outro', outroRoutes);
+// Todas as outras rotas direcionam para frontend
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
 
-app.listen(PORT, () => console.log(`SOMA AUREUM rodando na porta ${PORT}`));
+// Inicia servidor
+app.listen(PORT, () => console.log(`SOMA AUREUM Demo rodando na porta ${PORT}`));
