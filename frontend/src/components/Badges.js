@@ -2,7 +2,6 @@ import React from 'react';
 
 function Badges({ user }) {
     const badges = [];
-
     if(user.aportes.length >= 1) badges.push("Primeiro Aporte 🥇");
     if(user.plan === "Ouro") badges.push("Investidor Ouro 🥇");
     if(user.plan === "Platina") badges.push("Clube Platina 💎");
