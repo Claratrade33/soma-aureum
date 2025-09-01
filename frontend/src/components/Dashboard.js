@@ -1,9 +1,8 @@
-// Dashboard.js
 import React, { useState, useEffect } from 'react';
-import Badges from './Badges';
 import InvestmentChart from './InvestmentChart';
+import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
-import './Dashboard.css'; // CSS premium preto & dourado
+import './Dashboard.css';
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
@@ -11,50 +10,51 @@ function Dashboard() {
     const [plan, setPlan] = useState('Bronze');
     const [aporte, setAporte] = useState(0);
 
-    // Usuários de exemplo coerentes com os planos
-    const demoUsers = [
-        { _id: 1, name: 'Alice', plan: 'Ouro', aporte: 15000, patrimonioVirtual: 16500 },
-        { _id: 2, name: 'Bob', plan: 'Prata', aporte: 5000, patrimonioVirtual: 5500 },
-        { _id: 3, name: 'Carol', plan: 'Platina', aporte: 50000, patrimonioVirtual: 55000 },
-        { _id: 4, name: 'David', plan: 'Ouro', aporte: 15000, patrimonioVirtual: 16500 },
+    const plans = [
+        { name: 'Bronze 🥉', min: 1000 },
+        { name: 'Prata 🥈', min: 5000 },
+        { name: 'Ouro 🥇', min: 15000 },
+        { name: 'Platina 💎', min: 50000 },
+        { name: 'Diamante 💎', min: 100000 },
     ];
 
+    const fetchUsers = async () => {
+        const res = await fetch('http://localhost:3000/api/users');
+        const data = await res.json();
+        setUsers(data);
+    };
+
     useEffect(() => {
-        // Simula fetch do backend
-        setUsers(demoUsers);
+        fetchUsers();
     }, []);
 
-    const handleAporte = () => {
-        if (!name || aporte < 1000) return; // mínimo Bronze
-        const newUser = {
-            _id: users.length + 1,
-            name,
-            plan,
-            aporte: Number(aporte),
-            patrimonioVirtual: Number(aporte) * 1.1 // crescimento 10%
-        };
-        setUsers([...users, newUser]);
-        setName('');
+    const handleAporte = async () => {
+        if (!name || aporte < 1000) {
+            alert("O aporte mínimo é R$ 1000");
+            return;
+        }
+        await fetch('http://localhost:3000/api/users/aporte', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, plan, aporte: Number(aporte) })
+        });
         setAporte(0);
+        fetchUsers();
     };
 
     const totalPatrimonio = users.reduce((sum, u) => sum + u.patrimonioVirtual, 0);
 
     return (
         <div className="dashboard-container">
-            <h1>SOMA AUREUM</h1>
+            <h1>Demo SOMA AUREUM</h1>
             <p>O ecossistema distribui crescimento coletivo: cada aporte aumenta o patrimônio virtual de todos proporcionalmente.</p>
 
             <div className="input-group">
                 <input placeholder="Seu nome" value={name} onChange={e => setName(e.target.value)} />
                 <select value={plan} onChange={e => setPlan(e.target.value)}>
-                    <option value="Bronze">Bronze</option>
-                    <option value="Prata">Prata</option>
-                    <option value="Ouro">Ouro</option>
-                    <option value="Platina">Platina</option>
-                    <option value="Diamante">Diamante</option>
+                    {plans.map(p => <option key={p.name} value={p.name.split(' ')[0]}>{p.name}</option>)}
                 </select>
-                <input type="number" placeholder="Aporte mínimo 1000" value={aporte} onChange={e => setAporte(e.target.value)} />
+                <input type="number" placeholder="Aporte mínimo R$ 1000" value={aporte} onChange={e => setAporte(e.target.value)} />
                 <button onClick={handleAporte}>Aportar</button>
             </div>
 
