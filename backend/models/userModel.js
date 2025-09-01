@@ -7,6 +7,7 @@ class User {
         this.password = password;
         this.plan = null;
         this.balance = 0;
+        this.aportes = [];
     }
 }
 
