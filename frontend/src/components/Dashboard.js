@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Badges from './Badges';
+import InvestmentChart from './InvestmentChart';
+import { generatePDF } from './ReportPDF';
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
@@ -28,9 +31,11 @@ function Dashboard() {
     const totalPatrimonio = users.reduce((sum, u) => sum + u.patrimonioVirtual, 0);
 
     return (
-        <div>
+        <div style={{ padding: "20px" }}>
             <h1>Demo SOMA AUREUM</h1>
-            <div>
+            <p>O ecossistema distribui crescimento coletivo: cada aporte aumenta o patrimônio virtual de todos proporcionalmente.</p>
+
+            <div style={{ marginTop: "20px" }}>
                 <input placeholder="Seu nome" value={name} onChange={e => setName(e.target.value)} />
                 <select value={plan} onChange={e => setPlan(e.target.value)}>
                     <option value="Bronze">Bronze</option>
@@ -43,7 +48,8 @@ function Dashboard() {
                 <button onClick={handleAporte}>Aportar</button>
             </div>
 
-            <h2>Total Patrimônio da Comunidade: {totalPatrimonio}</h2>
+            <h2>Total Patrimônio Coletivo: {totalPatrimonio.toFixed(2)}</h2>
+
             <table border="1" style={{ marginTop: '20px', width: '100%' }}>
                 <thead>
                     <tr>
@@ -64,6 +70,11 @@ function Dashboard() {
                     ))}
                 </tbody>
             </table>
+
+            <Badges user={{ plan }} />
+            <InvestmentChart users={users} />
+
+            <button style={{ marginTop: "20px" }} onClick={() => generatePDF(users)}>Gerar Relatório PDF</button>
         </div>
     );
 }
