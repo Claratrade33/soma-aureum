@@ -1,11 +1,13 @@
 import React from 'react';
-import '../styles/Badges.css';
+import './Badges.css';
 
 function Badges({ user }) {
+    const { plan } = user;
+
     return (
         <div className="badges-container">
             <div className="badge">
-                Badge atual: <span>{user.plan}</span>
+                {plan} <span>🏅</span>
             </div>
         </div>
     );
