@@ -3,7 +3,7 @@ import jsPDF from 'jspdf';
 export function generatePDF(user) {
     const doc = new jsPDF();
     doc.setFontSize(22);
-    doc.setTextColor(212,175,55); // Dourado
+    doc.setTextColor(212,175,55); // dourado
     doc.text("SOMA AUREUM - Relatório VIP", 20, 20);
 
     doc.setFontSize(16);
