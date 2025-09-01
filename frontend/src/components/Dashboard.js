@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Badges from './Badges';
 import InvestmentChart from './InvestmentChart';
 import { generatePDF } from './ReportPDF';
+import './Dashboard.css'; // <-- Importando o CSS premium
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
@@ -31,11 +32,11 @@ function Dashboard() {
     const totalPatrimonio = users.reduce((sum, u) => sum + u.patrimonioVirtual, 0);
 
     return (
-        <div style={{ padding: "20px" }}>
+        <div className="dashboard-container">
             <h1>Demo SOMA AUREUM</h1>
             <p>O ecossistema distribui crescimento coletivo: cada aporte aumenta o patrimônio virtual de todos proporcionalmente.</p>
 
-            <div style={{ marginTop: "20px" }}>
+            <div className="input-group">
                 <input placeholder="Seu nome" value={name} onChange={e => setName(e.target.value)} />
                 <select value={plan} onChange={e => setPlan(e.target.value)}>
                     <option value="Bronze">Bronze</option>
@@ -50,31 +51,33 @@ function Dashboard() {
 
             <h2>Total Patrimônio Coletivo: {totalPatrimonio.toFixed(2)}</h2>
 
-            <table border="1" style={{ marginTop: '20px', width: '100%' }}>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Plano</th>
-                        <th>Aporte</th>
-                        <th>Patrimônio Virtual</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map(u => (
-                        <tr key={u._id}>
-                            <td>{u.name}</td>
-                            <td>{u.plan}</td>
-                            <td>{u.aporte}</td>
-                            <td>{u.patrimonioVirtual.toFixed(2)}</td>
+            <div className="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Plano</th>
+                            <th>Aporte</th>
+                            <th>Patrimônio Virtual</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {users.map(u => (
+                            <tr key={u._id}>
+                                <td>{u.name}</td>
+                                <td>{u.plan}</td>
+                                <td>{u.aporte}</td>
+                                <td>{u.patrimonioVirtual.toFixed(2)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
             <Badges user={{ plan }} />
             <InvestmentChart users={users} />
 
-            <button style={{ marginTop: "20px" }} onClick={() => generatePDF(users)}>Gerar Relatório PDF</button>
+            <button className="generate-pdf-btn" onClick={() => generatePDF(users)}>Gerar Relatório PDF</button>
         </div>
     );
 }
