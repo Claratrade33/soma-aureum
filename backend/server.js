@@ -1,4 +1,4 @@
-require('dotenv').config(); // lê variáveis de ambiente
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -25,7 +25,7 @@ const publicKey = process.env.PUBLIC_KEY;
 console.log('Chaves carregadas:', publicKey, privateKey);
 
 // Rotas da API
-const userRoutes = require('./routes/userRoutes'); // arquivo userRoutes.js no backend
+const userRoutes = require('./routes/userRoutes');
 app.use('/api/users', userRoutes);
 
 // Servir frontend build do React
