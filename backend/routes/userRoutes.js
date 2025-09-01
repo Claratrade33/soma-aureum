@@ -16,7 +16,6 @@ router.post('/aporte', async (req, res) => {
     return res.status(400).json({ message: 'Dados inválidos' });
   }
 
-  // Cria ou atualiza usuário
   let user = await User.findOne({ name });
   if (!user) {
     user = new User({ name, plan, aporte, patrimonioVirtual: aporte });
@@ -25,12 +24,11 @@ router.post('/aporte', async (req, res) => {
   }
   await user.save();
 
-  // Atualiza patrimônio virtual de todos proporcional ao total
   const allUsers = await User.find();
   const totalAporte = allUsers.reduce((sum, u) => sum + u.aporte, 0);
 
   await Promise.all(allUsers.map(async u => {
-    u.patrimonioVirtual = u.aporte + (totalAporte * 0.1 * (u.aporte / totalAporte)); // 10% crescimento coletivo
+    u.patrimonioVirtual = u.aporte + (totalAporte * 0.1 * (u.aporte / totalAporte));
     await u.save();
   }));
 
