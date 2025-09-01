@@ -4,21 +4,15 @@ import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
 
 function Dashboard() {
-    // Valores fictícios para teste sem login
     const [plan, setPlan] = useState('Nenhum');
     const [amount, setAmount] = useState('');
-    const [aportes, setAportes] = useState([1000, 2000, 1500]); // Exemplo de histórico
-    const user = {
-        name: 'Investidor VIP',
-        balance: 5000
-    };
+    const [aportes, setAportes] = useState([1000, 2000, 1500]);
+    const user = { name: 'Investidor VIP', balance: 5000 };
 
     const handleInvest = () => {
         if (!plan || !amount) return alert('Escolha um plano e valor!');
         const valor = Number(amount);
         if (isNaN(valor) || valor <= 0) return alert('Valor inválido!');
-        
-        // Simula aporte localmente
         const novosAportes = [...aportes, valor];
         setAportes(novosAportes);
         setAmount('');
