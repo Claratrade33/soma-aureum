@@ -29,8 +29,8 @@ function App() {
     gold: '#ffd700',
     platinum: '#e5e4e2',
     diamond: '#b9f2ff',
-    primary: '#4b0082',
-    secondary: '#ffcc00'
+    primary: '#FFD700',
+    secondary: '#FFC107'
   };
 
   const plans = [
@@ -42,10 +42,10 @@ function App() {
   ];
 
   const demoUsers = [
-    { name: 'Alice', plan: 'Gold', aporte: 1000 },
-    { name: 'Bob', plan: 'Silver', aporte: 500 },
-    { name: 'Carol', plan: 'Platinum', aporte: 2000 },
-    { name: 'David', plan: 'Gold', aporte: 1500 },
+    { name: 'Alice', plan: 'Ouro', aporte: 10000 },
+    { name: 'Bob', plan: 'Bronze', aporte: 1000 },
+    { name: 'Carol', plan: 'Prata', aporte: 50000 },
+    { name: 'David', plan: 'Ouro', aporte: 15000 },
   ];
 
   useEffect(() => {
@@ -55,7 +55,6 @@ function App() {
       patrimonioVirtual: u.aporte + totalAporte * 0.1 * (u.aporte / totalAporte)
     }));
     setUsers(usersWithPatrimonio);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const data = {
@@ -77,20 +76,19 @@ function App() {
     doc.save('relatorio_soma_aureum.pdf');
   };
 
-  // Estilos Luxo
   const pageStyle = {
     fontFamily: 'Arial, sans-serif',
     maxWidth: '1000px',
     margin: '50px auto',
     padding: '0 20px 50px 20px',
-    background: 'linear-gradient(135deg, #2c003e, #5d007e)',
-    color: '#fff',
-    borderRadius: '15px',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+    background: '#000000',
+    color: '#FFD700',
+    borderRadius: '20px',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.7)',
   };
 
   const cardStyle = (color) => ({
-    flex: '1 1 200px',
+    flex: '1 1 220px',
     border: `2px solid ${color}`,
     borderRadius: '15px',
     padding: '20px',
@@ -102,40 +100,41 @@ function App() {
   const buttonStyle = {
     padding: '12px 30px',
     fontSize: '16px',
-    background: 'linear-gradient(45deg, #ffd700, #ffcc00)',
-    color: '#4b0082',
+    background: 'linear-gradient(45deg, #FFD700, #FFC107)',
+    color: '#000',
     fontWeight: 'bold',
     border: 'none',
     borderRadius: '50px',
     cursor: 'pointer',
-    transition: 'all 0.3s ease'
+    transition: 'all 0.3s ease',
+    boxShadow: '0 5px 15px rgba(0,0,0,0.5)'
   };
 
   return (
     <div style={pageStyle}>
-      <header style={{ textAlign: 'center', marginBottom: '50px', textShadow: '0 4px 10px rgba(0,0,0,0.7)' }}>
-        <h1 style={{ color: '#ffd700', fontSize: '48px', letterSpacing: '3px' }}>SOMA AUREUM</h1>
-        <p style={{ fontSize: '20px', color: '#eee' }}>Visualização demo de aportes e crescimento coletivo</p>
+      <header style={{ textAlign: 'center', marginBottom: '50px' }}>
+        <h1 style={{ fontSize: '48px', letterSpacing: '3px', textShadow: '0 4px 10px rgba(0,0,0,0.7)' }}>SOMA AUREUM</h1>
+        <p style={{ fontSize: '20px', color: '#FFD700' }}>Visualização demo de aportes e crescimento coletivo</p>
       </header>
 
       <section style={{ marginBottom: '50px' }}>
-        <Bar data={data} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
+        <Bar data={data} options={{ responsive: true, plugins: { legend: { position: 'top', labels: { color: '#FFD700' } } } }} />
       </section>
 
       <section style={{ marginBottom: '50px' }}>
-        <h2 style={{ color: colors.primary }}>Usuários e Patrimônio Virtual</h2>
+        <h2>Usuários e Patrimônio Virtual</h2>
         <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '15px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '10px' }}>
           <thead>
             <tr>
-              <th style={{ borderBottom: '2px solid #ccc', padding: '10px', textAlign: 'left' }}>Nome</th>
-              <th style={{ borderBottom: '2px solid #ccc', padding: '10px', textAlign: 'left' }}>Plano</th>
-              <th style={{ borderBottom: '2px solid #ccc', padding: '10px', textAlign: 'right' }}>Aporte</th>
-              <th style={{ borderBottom: '2px solid #ccc', padding: '10px', textAlign: 'right' }}>Patrimônio Virtual</th>
+              <th style={{ padding: '10px', textAlign: 'left' }}>Nome</th>
+              <th style={{ padding: '10px', textAlign: 'left' }}>Plano</th>
+              <th style={{ padding: '10px', textAlign: 'right' }}>Aporte</th>
+              <th style={{ padding: '10px', textAlign: 'right' }}>Patrimônio Virtual</th>
             </tr>
           </thead>
           <tbody>
             {users.map(u => (
-              <tr key={u.name} style={{ transition: 'all 0.3s ease', cursor: 'pointer' }} 
+              <tr key={u.name} style={{ cursor: 'pointer' }}
                   onMouseOver={(e)=> e.currentTarget.style.background='rgba(255,255,255,0.1)'} 
                   onMouseOut={(e)=> e.currentTarget.style.background='transparent'}>
                 <td style={{ padding: '10px' }}>{u.name}</td>
@@ -149,7 +148,7 @@ function App() {
       </section>
 
       <section style={{ marginBottom: '50px' }}>
-        <h2 style={{ color: colors.primary }}>Planos e Benefícios</h2>
+        <h2>Planos e Benefícios</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
           {plans.map(p => (
             <div key={p.name} style={cardStyle(p.color)}>
@@ -166,10 +165,10 @@ function App() {
 
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
         <button 
-          onClick={generatePDF} 
           style={buttonStyle}
           onMouseOver={(e)=> e.currentTarget.style.transform='scale(1.05)'}
           onMouseOut={(e)=> e.currentTarget.style.transform='scale(1)'}
+          onClick={generatePDF}
         >
           Gerar PDF
         </button>
