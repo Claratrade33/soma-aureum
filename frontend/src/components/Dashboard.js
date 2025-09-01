@@ -42,7 +42,6 @@ function Dashboard() {
         const totalAporteAtual = users.reduce((sum, u) => sum + u.aporte, 0) + Number(aporte);
 
         const newUser = { name, plan, aporte: Number(aporte) };
-        // Calculando patrimônio proporcional com base no total atualizado
         newUser.patrimonioVirtual = newUser.aporte + totalAporteAtual * 0.1 * (newUser.aporte / totalAporteAtual);
 
         const updatedUsers = users.map(u => ({
@@ -71,8 +70,10 @@ function Dashboard() {
                 <button onClick={handleAporte}>Aportar</button>
             </div>
 
-            <h2>Total Patrimônio Coletivo: R$ {totalPatrimonio.toFixed(2)}</h2>
-            <h3>Total de Aportes: R$ {totalAportes.toFixed(2)}</h3>
+            <div className="totals">
+                <div>Total Patrimônio: <strong>R$ {totalPatrimonio.toFixed(2)}</strong></div>
+                <div>Total Aportes: <strong>R$ {totalAportes.toFixed(2)}</strong></div>
+            </div>
 
             <div className="table-container">
                 <table>
@@ -81,20 +82,28 @@ function Dashboard() {
                             <th>Nome</th>
                             <th>Plano</th>
                             <th>Aporte</th>
-                            <th>% do Total Aportes</th>
+                            <th>% do Total</th>
                             <th>Patrimônio Virtual</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((u, idx) => (
-                            <tr key={idx}>
-                                <td>{u.name}</td>
-                                <td>{u.plan}</td>
-                                <td>R$ {u.aporte.toFixed(2)}</td>
-                                <td>{((u.aporte / totalAportes) * 100).toFixed(2)}%</td>
-                                <td>R$ {u.patrimonioVirtual.toFixed(2)}</td>
-                            </tr>
-                        ))}
+                        {users.map((u, idx) => {
+                            const percent = (u.aporte / totalAportes) * 100;
+                            return (
+                                <tr key={idx}>
+                                    <td>{u.name}</td>
+                                    <td>{u.plan}</td>
+                                    <td>R$ {u.aporte.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                                    <td>
+                                        <div className="progress-bar">
+                                            <div className="progress-fill" style={{ width: `${percent}%` }}></div>
+                                            <span className="progress-text">{percent.toFixed(2)}%</span>
+                                        </div>
+                                    </td>
+                                    <td>R$ {u.patrimonioVirtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
             </div>
