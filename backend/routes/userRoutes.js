@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
-// Listar todos os usuários
+// Retorna todos os usuários
 router.get('/', async (req, res) => {
   const users = await User.find();
   res.json(users);
 });
 
-// Adicionar aporte
+// Adicionar aporte (demo interativo, opcional)
 router.post('/aporte', async (req, res) => {
   const { name, plan, aporte } = req.body;
 
