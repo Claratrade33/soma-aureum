@@ -1,15 +1,22 @@
 {
-  "name": "soma-aureum-frontend",
+  "name": "soma-aureum-backend",
   "version": "1.0.0",
-  "private": true,
-  "homepage": ".",
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
-  },
+  "description": "Backend da plataforma SOMA AUREUM",
+  "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build"
-  }
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.6.0"
+  },
+  "engines": {
+    "node": "22.16.0"
+  },
+  "keywords": ["soma", "aureum", "backend", "node", "express", "mongodb"],
+  "author": "Bubinha",
+  "license": "MIT"
 }
