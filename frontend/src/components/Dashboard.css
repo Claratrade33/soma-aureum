@@ -1,0 +1,96 @@
+.dashboard-container {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #2c003e, #5d007e);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.dashboard-container h1, .dashboard-container h2 {
+    text-align: center;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.7);
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.input-group input,
+.input-group select {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+    font-weight: bold;
+}
+
+.input-group input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.input-group button {
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(45deg, #ffd700, #ffcc00);
+    color: #4b0082;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.input-group button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #ffe066, #ffda33);
+}
+
+.table-container {
+    margin-top: 30px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+tr:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.generate-pdf-btn {
+    display: block;
+    margin: 30px auto 0 auto;
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(45deg, #ffd700, #ffcc00);
+    color: #4b0082;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.generate-pdf-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #ffe066, #ffda33);
+}
