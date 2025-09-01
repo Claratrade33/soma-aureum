@@ -1,17 +1,23 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    PointElement,
-    LineElement,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
     Title,
     Tooltip,
     Legend
-} from 'chart.js';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+);
 
 function InvestmentChart({ users }) {
     const data = {
@@ -20,21 +26,25 @@ function InvestmentChart({ users }) {
             {
                 label: 'Patrimônio Virtual',
                 data: users.map(u => u.patrimonioVirtual),
-                borderColor: '#ffd700',
-                backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                backgroundColor: 'rgba(255, 191, 0, 0.7)',
             },
-        ],
+            {
+                label: 'Aporte',
+                data: users.map(u => u.aporte),
+                backgroundColor: 'rgba(0, 123, 204, 0.7)',
+            }
+        ]
     };
 
     const options = {
         responsive: true,
         plugins: {
             legend: { position: 'top' },
-            title: { display: true, text: 'Patrimônio Virtual por Usuário' },
-        },
+            title: { display: true, text: 'Investimentos dos Usuários' }
+        }
     };
 
-    return <Line data={data} options={options} />;
+    return <Bar data={data} options={options} />;
 }
 
 export default InvestmentChart;
