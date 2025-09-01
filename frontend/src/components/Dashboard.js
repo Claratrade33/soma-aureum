@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import InvestmentChart from './InvestmentChart';
+import Badges from './Badges';
+import { generatePDF } from './ReportPDF';
 
 function Dashboard({ user }) {
     const [plan, setPlan] = useState('');
@@ -13,10 +15,8 @@ function Dashboard({ user }) {
             body: JSON.stringify({ email: user.email, plan, amount: Number(amount) })
         });
         const data = await res.json();
-        if(res.ok) {
-            alert(data.message);
-            setAportes(data.aportes);
-        } else alert(data);
+        if(res.ok) setAportes(data.aportes);
+        else alert(data);
     };
 
     return (
@@ -39,6 +39,9 @@ function Dashboard({ user }) {
                 <button onClick={handleInvest}>Aportar</button>
             </div>
 
+            <button onClick={() => generatePDF(user)}>Gerar Relatório PDF VIP</button>
+
+            <Badges user={user} />
             <InvestmentChart aportes={aportes} />
         </div>
     );
