@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const userRoutes = require('./routes/userRoutes');
 const User = require('./models/User');
@@ -12,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Conexão MongoDB
+// MongoDB
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/soma_aureum', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -20,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/soma_aureum
 .then(() => console.log('MongoDB conectado!'))
 .catch(err => console.error('Erro ao conectar MongoDB:', err));
 
-// Criar admin e usuários demo
+// Criar demo users e admin
 const createDemoData = async () => {
   const count = await User.countDocuments();
   if(count === 0) {
@@ -33,12 +34,10 @@ const createDemoData = async () => {
     ];
 
     const totalAporte = demoUsers.reduce((sum, u) => sum + u.aporte, 0);
-
     for(const u of demoUsers) {
       u.patrimonioVirtual = u.aporte + totalAporte * 0.1 * (u.aporte / totalAporte);
       await new User(u).save();
     }
-
     console.log('Usuários demo e admin criados!');
   }
 };
@@ -47,8 +46,7 @@ createDemoData();
 // Rotas
 app.use('/api/users', userRoutes);
 
-// Servir frontend build (opcional)
-const path = require('path');
+// Servir frontend build
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
