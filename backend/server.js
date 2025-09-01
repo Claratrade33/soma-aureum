@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/soma_aureum', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -19,17 +20,38 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/soma_aureum
 .then(() => console.log('MongoDB conectado!'))
 .catch(err => console.error('Erro ao conectar MongoDB:', err));
 
-// Criação automática de admin
-const createAdmin = async () => {
-  const adminExists = await User.findOne({ role: 'admin' });
-  if (!adminExists) {
-    const admin = new User({ name: 'admin', plan: 'premium', aporte: 0, patrimonioVirtual: 0, role: 'admin' });
-    await admin.save();
-    console.log('Usuário admin criado!');
+// Criar admin e usuários demo
+const createDemoData = async () => {
+  const count = await User.countDocuments();
+  if(count === 0) {
+    const demoUsers = [
+      { name: 'Alice', plan: 'Gold', aporte: 1000 },
+      { name: 'Bob', plan: 'Silver', aporte: 500 },
+      { name: 'Carol', plan: 'Platinum', aporte: 2000 },
+      { name: 'David', plan: 'Gold', aporte: 1500 },
+      { name: 'Admin', plan: 'Premium', aporte: 0, role: 'admin' }
+    ];
+
+    const totalAporte = demoUsers.reduce((sum, u) => sum + u.aporte, 0);
+
+    for(const u of demoUsers) {
+      u.patrimonioVirtual = u.aporte + totalAporte * 0.1 * (u.aporte / totalAporte);
+      await new User(u).save();
+    }
+
+    console.log('Usuários demo e admin criados!');
   }
 };
-createAdmin();
+createDemoData();
 
+// Rotas
 app.use('/api/users', userRoutes);
+
+// Servir frontend build (opcional)
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
 
 app.listen(PORT, () => console.log(`SOMA AUREUM rodando na porta ${PORT}`));
