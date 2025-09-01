@@ -1,13 +1,16 @@
 const express = require('express');
-const cors = require('cors');
-require('./db'); // conexão com MongoDB
-const userRoutes = require('./routes/userRoutes');
-
+const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
+// Rotas da API
+const userRoutes = require('./routes/userRoutes');
 app.use('/api/users', userRoutes);
 
-app.listen(PORT, () => console.log(`SOMA AUREUM Backend rodando na porta ${PORT}`));
+// Servir frontend build
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+app.listen(PORT, () => console.log(`SOMA AUREUM rodando na porta ${PORT}`));
