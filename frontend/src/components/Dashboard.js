@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InvestmentChart from './InvestmentChart';
 import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
-import '../styles/Dashboard.css';
+import './Dashboard.css';
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
@@ -18,14 +18,20 @@ function Dashboard() {
         { name: 'Diamante 💎', min: 100000 },
     ];
 
-    const fetchUsers = async () => {
-        const res = await fetch('http://localhost:3000/api/users');
-        const data = await res.json();
-        setUsers(data);
-    };
+    const demoUsers = [
+        { name: 'Alice', plan: 'Ouro', aporte: 1000 },
+        { name: 'Bob', plan: 'Prata', aporte: 5000 },
+        { name: 'Carol', plan: 'Platina', aporte: 20000 }, // Corrigido aqui
+        { name: 'David', plan: 'Ouro', aporte: 15000 },
+    ];
 
     useEffect(() => {
-        fetchUsers();
+        const totalAporte = demoUsers.reduce((sum, u) => sum + u.aporte, 0);
+        const usersWithPatrimonio = demoUsers.map(u => ({
+            ...u,
+            patrimonioVirtual: u.aporte + totalAporte * 0.1 * (u.aporte / totalAporte)
+        }));
+        setUsers(usersWithPatrimonio);
     }, []);
 
     const handleAporte = async () => {
@@ -33,13 +39,10 @@ function Dashboard() {
             alert("O aporte mínimo é R$ 1000");
             return;
         }
-        await fetch('http://localhost:3000/api/users/aporte', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, plan, aporte: Number(aporte) })
-        });
+        // Aqui você poderia chamar sua API real
+        const newUser = { name, plan, aporte: Number(aporte), patrimonioVirtual: aporte };
+        setUsers(prev => [...prev, newUser]);
         setAporte(0);
-        fetchUsers();
     };
 
     const totalPatrimonio = users.reduce((sum, u) => sum + u.patrimonioVirtual, 0);
@@ -71,8 +74,8 @@ function Dashboard() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(u => (
-                            <tr key={u._id}>
+                        {users.map((u, idx) => (
+                            <tr key={idx}>
                                 <td>{u.name}</td>
                                 <td>{u.plan}</td>
                                 <td>{u.aporte}</td>
