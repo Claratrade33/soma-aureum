@@ -1,14 +1,13 @@
-let users = [];
+const mongoose = require('mongoose');
 
-class User {
-    constructor(name, email, password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.plan = null;
-        this.balance = 0;
-        this.aportes = [];
-    }
-}
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    password: String,
+    plan: String,
+    balance: Number,
+    aportes: [Number]
+});
 
-module.exports = { users, User };
+const User = mongoose.model('User', userSchema);
+module.exports = User;
