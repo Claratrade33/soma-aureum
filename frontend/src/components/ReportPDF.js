@@ -3,24 +3,21 @@ import 'jspdf-autotable';
 
 export function generatePDF(users) {
     const doc = new jsPDF();
-    doc.text("Relatório SOMA AUREUM", 14, 20);
+
+    doc.text('Relatório de Usuários - SOMA AUREUM', 14, 20);
     const tableColumn = ["Nome", "Plano", "Aporte", "Patrimônio Virtual"];
     const tableRows = [];
 
-    users.forEach(user => {
+    users.forEach(u => {
         const userData = [
-            user.name,
-            user.plan,
-            user.aporte,
-            user.patrimonioVirtual.toFixed(2)
+            u.name,
+            u.plan,
+            u.aporte,
+            u.patrimonioVirtual.toFixed(2)
         ];
         tableRows.push(userData);
     });
 
-    doc.autoTable({
-        head: [tableColumn],
-        body: tableRows,
-        startY: 30
-    });
-    doc.save('relatorio_soma_aureum.pdf');
+    doc.autoTable(tableColumn, tableRows, { startY: 30 });
+    doc.save('relatorio_usuarios.pdf');
 }
