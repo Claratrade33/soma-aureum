@@ -21,7 +21,8 @@ const invest = (req, res) => {
     if(!user) return res.status(400).send("Usuário não encontrado");
     user.plan = plan;
     user.balance += amount;
-    res.send({ message: `Aporte realizado no plano ${plan}`, balance: user.balance });
+    user.aportes.push(amount);
+    res.send({ message: `Aporte realizado no plano ${plan}`, balance: user.balance, aportes: user.aportes });
 };
 
 module.exports = { register, login, invest };
