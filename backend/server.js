@@ -20,14 +20,10 @@ mongoose.connect(mongoUri, {
 .then(() => console.log('MongoDB conectado!'))
 .catch(err => console.error('Erro ao conectar MongoDB:', err));
 
-// Chaves privadas e públicas
+// Chaves (se necessário futuramente)
 const privateKey = process.env.PRIVATE_KEY || 'chave_privada_teste';
 const publicKey = process.env.PUBLIC_KEY || 'chave_publica_teste';
 console.log('Chaves carregadas:', publicKey, privateKey);
-
-// Rotas de usuários
-const userRoutes = require('./routes/userRoutes');
-app.use('/api/users', userRoutes);
 
 // Servir frontend React (pasta build)
 const frontendBuildPath = path.join(__dirname, '../frontend/build');
