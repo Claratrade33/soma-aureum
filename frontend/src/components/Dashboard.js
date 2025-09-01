@@ -39,12 +39,23 @@ function Dashboard() {
             alert("O aporte mínimo é R$ 1000");
             return;
         }
-        const newUser = { name, plan, aporte: Number(aporte), patrimonioVirtual: aporte };
-        setUsers(prev => [...prev, newUser]);
+        const totalAporteAtual = users.reduce((sum, u) => sum + u.aporte, 0) + Number(aporte);
+
+        const newUser = { name, plan, aporte: Number(aporte) };
+        // Calculando patrimônio proporcional com base no total atualizado
+        newUser.patrimonioVirtual = newUser.aporte + totalAporteAtual * 0.1 * (newUser.aporte / totalAporteAtual);
+
+        const updatedUsers = users.map(u => ({
+            ...u,
+            patrimonioVirtual: u.aporte + totalAporteAtual * 0.1 * (u.aporte / totalAporteAtual)
+        }));
+
+        setUsers([...updatedUsers, newUser]);
         setAporte(0);
     };
 
     const totalPatrimonio = users.reduce((sum, u) => sum + u.patrimonioVirtual, 0);
+    const totalAportes = users.reduce((sum, u) => sum + u.aporte, 0);
 
     return (
         <div className="dashboard-container">
@@ -60,7 +71,8 @@ function Dashboard() {
                 <button onClick={handleAporte}>Aportar</button>
             </div>
 
-            <h2>Total Patrimônio Coletivo: {totalPatrimonio.toFixed(2)}</h2>
+            <h2>Total Patrimônio Coletivo: R$ {totalPatrimonio.toFixed(2)}</h2>
+            <h3>Total de Aportes: R$ {totalAportes.toFixed(2)}</h3>
 
             <div className="table-container">
                 <table>
@@ -69,6 +81,7 @@ function Dashboard() {
                             <th>Nome</th>
                             <th>Plano</th>
                             <th>Aporte</th>
+                            <th>% do Total Aportes</th>
                             <th>Patrimônio Virtual</th>
                         </tr>
                     </thead>
@@ -77,8 +90,9 @@ function Dashboard() {
                             <tr key={idx}>
                                 <td>{u.name}</td>
                                 <td>{u.plan}</td>
-                                <td>{u.aporte}</td>
-                                <td>{u.patrimonioVirtual.toFixed(2)}</td>
+                                <td>R$ {u.aporte.toFixed(2)}</td>
+                                <td>{((u.aporte / totalAportes) * 100).toFixed(2)}%</td>
+                                <td>R$ {u.patrimonioVirtual.toFixed(2)}</td>
                             </tr>
                         ))}
                     </tbody>
