@@ -1,38 +1,7 @@
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #FAF9F6;
-    color: #111;
-    text-align: center;
-}
-
-.app-container, .dashboard {
-    margin: 20px auto;
-    max-width: 600px;
-    padding: 20px;
-    background-color: #fff8e7;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(212,175,55,0.3);
-}
-
-input, select, button {
-    margin: 5px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-button {
-    background-color: #D4AF37;
-    color: #111;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-button:hover {
-    background-color: #bfa34b;
-}
-
-.invest-section {
-    margin-top: 20px;
+.App {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  background-color: #fdf6e3;
+  min-height: 100vh;
+  padding: 20px;
 }
