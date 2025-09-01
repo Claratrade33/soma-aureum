@@ -34,7 +34,7 @@ function Dashboard() {
         setUsers(usersWithPatrimonio);
     }, []);
 
-    const handleAporte = async () => {
+    const handleAporte = () => {
         if (!name || aporte < 1000) {
             alert("O aporte mínimo é R$ 1000");
             return;
