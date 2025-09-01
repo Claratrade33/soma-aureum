@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Badges from './Badges';
 import InvestmentChart from './InvestmentChart';
 import { generatePDF } from './ReportPDF';
-import './Dashboard.css'; // <-- Importando o CSS premium
+import './Dashboard.css';
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
     const [name, setName] = useState('');
     const [plan, setPlan] = useState('Bronze');
-    const [aporte, setAporte] = useState(0);
+    const [aporte, setAporte] = useState(1000); // default mínimo
 
     const fetchUsers = async () => {
         const res = await fetch('http://localhost:3000/api/users');
@@ -21,13 +21,23 @@ function Dashboard() {
     }, []);
 
     const handleAporte = async () => {
-        if (!name || aporte <= 0) return; // validação simples
+        if (!name) {
+            alert('Informe seu nome.');
+            return;
+        }
+        if (Number(aporte) < 1000) {
+            alert('O aporte mínimo é 1000 reais.');
+            return;
+        }
+
         await fetch('http://localhost:3000/api/users/aporte', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, plan, aporte: Number(aporte) })
         });
-        setAporte(0); // limpa campo
+
+        setName('');
+        setAporte(1000); // reset para o mínimo
         fetchUsers();
     };
 
@@ -65,7 +75,7 @@ function Dashboard() {
                     </thead>
                     <tbody>
                         {users.map(u => (
-                            <tr key={u._id}>
+                            <tr key={u._id || u.name}>
                                 <td>{u.name}</td>
                                 <td>{u.plan}</td>
                                 <td>{u.aporte}</td>
