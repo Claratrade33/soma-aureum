@@ -1,14 +1,12 @@
 .dashboard-container {
-    text-align: center;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #2c003e, #5d007e);
-    min-height: 100vh;
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+    color: #FFD700;
     padding: 40px 20px;
-    color: #fff;
-}
-
-.input-group {
-    margin: 25px 0;
+    border-radius: 20px;
+    max-width: 1000px;
+    margin: 50px auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
 }
 
 .input-group input,
@@ -16,14 +14,13 @@
     margin: 5px;
     padding: 8px 12px;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    border: 1px solid rgba(255, 215, 0, 0.7);
+    background-color: rgba(255, 215, 0, 0.05);
+    color: #FFD700;
 }
 
-.input-group input::placeholder,
-.input-group select::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+.input-group input::placeholder {
+    color: rgba(255, 215, 0, 0.5);
 }
 
 button {
@@ -31,32 +28,29 @@ button {
     margin: 5px;
     border: none;
     border-radius: 50px;
-    background: linear-gradient(45deg, #ffd700, #ffcc00);
+    background: linear-gradient(45deg, #FFD700, #FFC107);
     cursor: pointer;
     font-weight: bold;
-    color: #4b0082;
+    color: #000;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
 button:hover {
     transform: scale(1.05);
-    background: linear-gradient(45deg, #ffe066, #ffda33);
+    background: linear-gradient(45deg, #FFE066, #FFD633);
 }
 
 h1, h2 {
+    text-align: center;
     text-shadow: 0 4px 10px rgba(0,0,0,0.7);
 }
 
-.table-container {
-    overflow-x: auto;
-    margin-top: 20px;
-}
-
-table {
+.table-container table {
     width: 100%;
     border-collapse: collapse;
-    background-color: rgba(255, 255, 255, 0.05);
+    margin-top: 20px;
+    background-color: rgba(255, 215, 0, 0.05);
     border-radius: 10px;
     overflow: hidden;
 }
@@ -64,13 +58,9 @@ table {
 th, td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
 }
 
 tr:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.generate-pdf-btn {
-    margin-top: 20px;
+    background-color: rgba(255, 215, 0, 0.1);
 }
