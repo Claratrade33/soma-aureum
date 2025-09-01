@@ -1,16 +1,26 @@
 import React from 'react';
 
 function Badges({ user }) {
-    const badges = [];
-    if(user.aportes.length >= 1) badges.push("Primeiro Aporte 🥇");
-    if(user.plan === "Ouro") badges.push("Investidor Ouro 🥇");
-    if(user.plan === "Platina") badges.push("Clube Platina 💎");
-    if(user.plan === "Diamante") badges.push("Clube Diamante 💎");
+    const plan = user.plan || "Bronze";
+
+    const colors = {
+        Bronze: "#cd7f32",
+        Prata: "#c0c0c0",
+        Ouro: "#ffd700",
+        Platina: "#e5e4e2",
+        Diamante: "#b9f2ff"
+    };
 
     return (
-        <div>
-            <h3>Seus Badges VIP:</h3>
-            {badges.length ? badges.map((b,i) => <p key={i}>{b}</p>) : <p>Sem badges ainda</p>}
+        <div style={{ marginTop: "20px" }}>
+            <span style={{
+                backgroundColor: colors[plan],
+                padding: "5px 10px",
+                borderRadius: "5px",
+                color: "#000"
+            }}>
+                {plan} 🏅
+            </span>
         </div>
     );
 }
