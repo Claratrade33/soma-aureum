@@ -11,11 +11,11 @@ function Dashboard() {
     const [aporte, setAporte] = useState(0);
 
     const plans = [
-        { name: 'Bronze 🥉', min: 1000 },
-        { name: 'Prata 🥈', min: 5000 },
-        { name: 'Ouro 🥇', min: 15000 },
-        { name: 'Platina 💎', min: 50000 },
-        { name: 'Diamante 💎', min: 100000 },
+        { name: 'Bronze 🥉', color: '#cd7f32' },
+        { name: 'Prata 🥈', color: '#c0c0c0' },
+        { name: 'Ouro 🥇', color: '#ffd700' },
+        { name: 'Platina 💎', color: '#e5e4e2' },
+        { name: 'Diamante 💎', color: '#b9f2ff' },
     ];
 
     const demoUsers = [
@@ -30,7 +30,7 @@ function Dashboard() {
         const usersWithPatrimonio = demoUsers.map(u => ({
             ...u,
             patrimonioVirtual: u.aporte + totalAporte * 0.1 * (u.aporte / totalAporte)
-        }));
+        })).sort((a,b) => b.patrimonioVirtual - a.patrimonioVirtual); // rank
         setUsers(usersWithPatrimonio);
     }, []);
 
@@ -39,6 +39,7 @@ function Dashboard() {
             alert("O aporte mínimo é R$ 1000");
             return;
         }
+
         const totalAporteAtual = users.reduce((sum, u) => sum + u.aporte, 0) + Number(aporte);
 
         const newUser = { name, plan, aporte: Number(aporte) };
@@ -49,12 +50,17 @@ function Dashboard() {
             patrimonioVirtual: u.aporte + totalAporteAtual * 0.1 * (u.aporte / totalAporteAtual)
         }));
 
-        setUsers([...updatedUsers, newUser]);
+        setUsers([...updatedUsers, newUser].sort((a,b) => b.patrimonioVirtual - a.patrimonioVirtual));
         setAporte(0);
     };
 
     const totalPatrimonio = users.reduce((sum, u) => sum + u.patrimonioVirtual, 0);
     const totalAportes = users.reduce((sum, u) => sum + u.aporte, 0);
+
+    const getPlanColor = (planName) => {
+        const p = plans.find(p => p.name.startsWith(planName));
+        return p ? p.color : '#999';
+    };
 
     return (
         <div className="dashboard-container">
@@ -71,14 +77,15 @@ function Dashboard() {
             </div>
 
             <div className="totals">
-                <div>Total Patrimônio: <strong>R$ {totalPatrimonio.toFixed(2)}</strong></div>
-                <div>Total Aportes: <strong>R$ {totalAportes.toFixed(2)}</strong></div>
+                <div>Total Patrimônio: <strong>R$ {totalPatrimonio.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</strong></div>
+                <div>Total Aportes: <strong>R$ {totalAportes.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</strong></div>
             </div>
 
             <div className="table-container">
                 <table>
                     <thead>
                         <tr>
+                            <th>Rank</th>
                             <th>Nome</th>
                             <th>Plano</th>
                             <th>Aporte</th>
@@ -90,13 +97,14 @@ function Dashboard() {
                         {users.map((u, idx) => {
                             const percent = (u.aporte / totalAportes) * 100;
                             return (
-                                <tr key={idx}>
-                                    <td>{u.name}</td>
-                                    <td>{u.plan}</td>
+                                <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? '#f9f9f9' : '#fff' }}>
+                                    <td>{idx + 1}</td>
+                                    <td>{u.name} <Badges user={{ plan: u.plan }} /></td>
+                                    <td style={{ color: getPlanColor(u.plan), fontWeight: 'bold' }}>{u.plan}</td>
                                     <td>R$ {u.aporte.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
                                     <td>
                                         <div className="progress-bar">
-                                            <div className="progress-fill" style={{ width: `${percent}%` }}></div>
+                                            <div className="progress-fill" style={{ width: `${percent}%`, backgroundColor: getPlanColor(u.plan) }}></div>
                                             <span className="progress-text">{percent.toFixed(2)}%</span>
                                         </div>
                                     </td>
@@ -108,7 +116,6 @@ function Dashboard() {
                 </table>
             </div>
 
-            <Badges user={{ plan }} />
             <InvestmentChart users={users} />
 
             <button className="generate-pdf-btn" onClick={() => generatePDF(users)}>Gerar Relatório PDF</button>
