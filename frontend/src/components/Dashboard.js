@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InvestmentChart from './InvestmentChart';
 import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
-import './Dashboard.css';
+import '../styles/Dashboard.css';
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
@@ -24,7 +24,9 @@ function Dashboard() {
         setUsers(data);
     };
 
-    useEffect(() => { fetchUsers(); }, []);
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
     const handleAporte = async () => {
         if (!name || aporte < 1000) {
