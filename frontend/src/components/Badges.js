@@ -1,7 +1,8 @@
 import React from 'react';
+import './Badges.css'; // CSS específico para os badges
 
 function Badges({ user }) {
-    const planColors = {
+    const badgeColors = {
         Bronze: '#cd7f32',
         Prata: '#c0c0c0',
         Ouro: '#ffd700',
@@ -10,16 +11,17 @@ function Badges({ user }) {
     };
 
     return (
-        <div style={{ marginTop: '20px' }}>
-            <span style={{
-                padding: '10px 20px',
-                borderRadius: '20px',
-                backgroundColor: planColors[user.plan] || '#fff',
-                color: '#4b0082',
-                fontWeight: 'bold'
-            }}>
-                {user.plan} Badge
-            </span>
+        <div className="badges-container">
+            <h2>Seu Badge Atual</h2>
+            <div
+                className="badge"
+                style={{
+                    backgroundColor: badgeColors[user.plan] || '#fff',
+                    color: '#000'
+                }}
+            >
+                {user.plan} 🏅
+            </div>
         </div>
     );
 }
