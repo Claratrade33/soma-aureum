@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InvestmentChart from './InvestmentChart';
 import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
 
 function Dashboard() {
-    // Estado inicial seguro
+    // Estado do usuário demo
     const [user, setUser] = useState(null);
     const [plan, setPlan] = useState('');
     const [amount, setAmount] = useState('');
     const [aportes, setAportes] = useState([]);
 
-    // Carrega usuário demo ao montar componente
+    // Inicializa demo offline
     useEffect(() => {
-        fetch('/api/demo')
-            .then(res => res.json())
-            .then(data => {
-                setUser(data);
-                setAportes(data.aportes || []);
-                setPlan(data.plan || '');
-            })
-            .catch(err => console.error('Erro ao carregar demo:', err));
+        const demoUser = {
+            name: 'Investidor VIP',
+            balance: 5000,
+            plan: 'Nenhum',
+            aportes: [1000, 2000, 1500]
+        };
+        setUser(demoUser);
+        setAportes(demoUser.aportes);
+        setPlan(demoUser.plan);
     }, []);
 
     if (!user) return <div>Carregando demo...</div>;
@@ -37,12 +38,13 @@ function Dashboard() {
 
     return (
         <div className="dashboard">
-            <h1>Bem-vindo, {user.name}</h1>
+            <h1>Bem-vindo à SOMA AUREUM Demo</h1>
+            <p>Nome: {user.name}</p>
             <p>Plano atual: {plan || 'Nenhum'}</p>
             <p>Saldo: R$ {user.balance}</p>
 
             <div className="invest-section">
-                <h3>Investir em plano</h3>
+                <h3>Simule um investimento</h3>
                 <select value={plan} onChange={e => setPlan(e.target.value)}>
                     <option value="">Selecione</option>
                     <option value="Bronze">Bronze 🥉</option>
@@ -67,6 +69,10 @@ function Dashboard() {
 
             <Badges user={{ plan, balance: user.balance }} />
             <InvestmentChart aportes={aportes} />
+
+            <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#555' }}>
+                *Esta é uma simulação demo. No lançamento oficial, você poderá criar sua conta e acessar sua carteira real.*
+            </p>
         </div>
     );
 }
