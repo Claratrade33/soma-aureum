@@ -4,27 +4,30 @@ import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
 
 function Dashboard() {
+    // Estado inicial seguro
     const [user, setUser] = useState(null);
     const [plan, setPlan] = useState('');
     const [amount, setAmount] = useState('');
     const [aportes, setAportes] = useState([]);
 
+    // Carrega usuário demo ao montar componente
     useEffect(() => {
-        // Busca usuário demo
         fetch('/api/demo')
             .then(res => res.json())
             .then(data => {
                 setUser(data);
-                setAportes(data.aportes);
-                setPlan(data.plan);
-            });
+                setAportes(data.aportes || []);
+                setPlan(data.plan || '');
+            })
+            .catch(err => console.error('Erro ao carregar demo:', err));
     }, []);
 
-    if (!user) return <div>Carregando...</div>;
+    if (!user) return <div>Carregando demo...</div>;
 
+    // Função de aporte simulado
     const handleInvest = () => {
-        if (!plan || !amount) return alert('Escolha um plano e valor!');
         const valor = Number(amount);
+        if (!plan) return alert('Escolha um plano!');
         if (isNaN(valor) || valor <= 0) return alert('Valor inválido!');
         const novosAportes = [...aportes, valor];
         setAportes(novosAportes);
@@ -48,7 +51,13 @@ function Dashboard() {
                     <option value="Platina">Platina 💎</option>
                     <option value="Diamante">Diamante 💎</option>
                 </select>
-                <input type="number" placeholder="Valor" value={amount} onChange={e => setAmount(e.target.value)} />
+                <input
+                    type="number"
+                    placeholder="Valor"
+                    value={amount}
+                    onChange={e => setAmount(e.target.value)}
+                    min="0"
+                />
                 <button onClick={handleInvest}>Aportar</button>
             </div>
 
