@@ -1,78 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import InvestmentChart from './InvestmentChart';
-import Badges from './Badges';
-import { generatePDF } from './ReportPDF';
 
 function Dashboard() {
-    // Estado do usuário demo
-    const [user, setUser] = useState(null);
-    const [plan, setPlan] = useState('');
-    const [amount, setAmount] = useState('');
-    const [aportes, setAportes] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [name, setName] = useState('');
+    const [plan, setPlan] = useState('Bronze');
+    const [aporte, setAporte] = useState(0);
 
-    // Inicializa demo offline
-    useEffect(() => {
-        const demoUser = {
-            name: 'Investidor VIP',
-            balance: 5000,
-            plan: 'Nenhum',
-            aportes: [1000, 2000, 1500]
-        };
-        setUser(demoUser);
-        setAportes(demoUser.aportes);
-        setPlan(demoUser.plan);
-    }, []);
-
-    if (!user) return <div>Carregando demo...</div>;
-
-    // Função de aporte simulado
-    const handleInvest = () => {
-        const valor = Number(amount);
-        if (!plan) return alert('Escolha um plano!');
-        if (isNaN(valor) || valor <= 0) return alert('Valor inválido!');
-        const novosAportes = [...aportes, valor];
-        setAportes(novosAportes);
-        setAmount('');
-        alert(`Você aportou R$ ${valor} no plano ${plan}!`);
+    const fetchUsers = async () => {
+        const res = await fetch('http://localhost:3000/api/users');
+        const data = await res.json();
+        setUsers(data);
     };
 
-    return (
-        <div className="dashboard">
-            <h1>Bem-vindo à SOMA AUREUM Demo</h1>
-            <p>Nome: {user.name}</p>
-            <p>Plano atual: {plan || 'Nenhum'}</p>
-            <p>Saldo: R$ {user.balance}</p>
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
-            <div className="invest-section">
-                <h3>Simule um investimento</h3>
+    const handleAporte = async () => {
+        await fetch('http://localhost:3000/api/users/aporte', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, plan, aporte: Number(aporte) })
+        });
+        fetchUsers();
+    };
+
+    const totalPatrimonio = users.reduce((sum, u) => sum + u.patrimonioVirtual, 0);
+
+    return (
+        <div>
+            <h1>Demo SOMA AUREUM</h1>
+            <div>
+                <input placeholder="Seu nome" value={name} onChange={e => setName(e.target.value)} />
                 <select value={plan} onChange={e => setPlan(e.target.value)}>
-                    <option value="">Selecione</option>
-                    <option value="Bronze">Bronze 🥉</option>
-                    <option value="Prata">Prata 🥈</option>
-                    <option value="Ouro">Ouro 🥇</option>
-                    <option value="Platina">Platina 💎</option>
-                    <option value="Diamante">Diamante 💎</option>
+                    <option value="Bronze">Bronze</option>
+                    <option value="Prata">Prata</option>
+                    <option value="Ouro">Ouro</option>
+                    <option value="Platina">Platina</option>
+                    <option value="Diamante">Diamante</option>
                 </select>
-                <input
-                    type="number"
-                    placeholder="Valor"
-                    value={amount}
-                    onChange={e => setAmount(e.target.value)}
-                    min="0"
-                />
-                <button onClick={handleInvest}>Aportar</button>
+                <input type="number" placeholder="Aporte" value={aporte} onChange={e => setAporte(e.target.value)} />
+                <button onClick={handleAporte}>Aportar</button>
             </div>
 
-            <button onClick={() => generatePDF({ name: user.name, plan, aportes })}>
-                Gerar Relatório PDF VIP
-            </button>
-
-            <Badges user={{ plan, balance: user.balance }} />
-            <InvestmentChart aportes={aportes} />
-
-            <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#555' }}>
-                *Esta é uma simulação demo. No lançamento oficial, você poderá criar sua conta e acessar sua carteira real.*
-            </p>
+            <h2>Total Patrimônio da Comunidade: {totalPatrimonio}</h2>
+            <table border="1" style={{ marginTop: '20px', width: '100%' }}>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Plano</th>
+                        <th>Aporte</th>
+                        <th>Patrimônio Virtual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map(u => (
+                        <tr key={u._id}>
+                            <td>{u.name}</td>
+                            <td>{u.plan}</td>
+                            <td>{u.aporte}</td>
+                            <td>{u.patrimonioVirtual.toFixed(2)}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }
