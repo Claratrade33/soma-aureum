@@ -21,7 +21,7 @@ function Dashboard() {
     const demoUsers = [
         { name: 'Alice', plan: 'Ouro', aporte: 1000 },
         { name: 'Bob', plan: 'Prata', aporte: 5000 },
-        { name: 'Carol', plan: 'Platina', aporte: 20000 }, // Corrigido
+        { name: 'Carol', plan: 'Platina', aporte: 20000 },
         { name: 'David', plan: 'Ouro', aporte: 15000 },
     ];
 
@@ -34,7 +34,7 @@ function Dashboard() {
         setUsers(usersWithPatrimonio);
     }, []);
 
-    const handleAporte = () => {
+    const handleAporte = async () => {
         if (!name || aporte < 1000) {
             alert("O aporte mínimo é R$ 1000");
             return;
