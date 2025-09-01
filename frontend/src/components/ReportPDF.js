@@ -1,15 +1,16 @@
 import jsPDF from 'jspdf';
 
-export const generatePDF = (user) => {
+export function generatePDF(users) {
     const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text('Relatório SOMA AUREUM Demo', 20, 20);
-    doc.setFontSize(14);
-    doc.text(`Nome: ${user.name}`, 20, 40);
-    doc.text(`Plano: ${user.plan}`, 20, 50);
-    doc.text('Aportes:', 20, 60);
-    user.aportes.forEach((valor, i) => {
-        doc.text(`Aporte ${i + 1}: R$ ${valor}`, 25, 70 + i * 10);
+    doc.setFontSize(16);
+    doc.text("Relatório SOMA AUREUM", 20, 20);
+
+    let y = 30;
+    users.forEach(u => {
+        doc.setFontSize(12);
+        doc.text(`${u.name} - Plano: ${u.plan} - Aporte: ${u.aporte} - Patrimônio Virtual: ${u.patrimonioVirtual.toFixed(2)}`, 20, y);
+        y += 10;
     });
-    doc.save('SOMA_AUREUM_demo.pdf');
-};
+
+    doc.save("SOMA_AUREUM_Report.pdf");
+}
