@@ -1,20 +1,29 @@
 .badges-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 30px;
-    text-align: center;
-}
-
-.badges-container h2 {
-    color: #FFD700;
-    text-shadow: 0 3px 6px rgba(0,0,0,0.6);
+    flex-direction: column;
 }
 
 .badge {
-    display: inline-block;
-    padding: 15px 30px;
-    margin-top: 15px;
+    border: 2px solid gold;
     border-radius: 50px;
+    padding: 15px 35px;
+    margin: 10px 0;
+    background-color: #121212;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
     font-weight: bold;
     font-size: 18px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    text-transform: uppercase;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+
+.badge span {
+    font-size: 18px;
+    color: gold;
 }
