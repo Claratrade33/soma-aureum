@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Badges from './Badges';
 import InvestmentChart from './InvestmentChart';
+import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
-import './Dashboard.css'; // Estilo premium preto e dourado
+import './Dashboard.css';
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
@@ -10,24 +10,33 @@ function Dashboard() {
     const [plan, setPlan] = useState('Bronze');
     const [aporte, setAporte] = useState(0);
 
+    const plans = [
+        { name: 'Bronze 🥉', min: 1000 },
+        { name: 'Prata 🥈', min: 5000 },
+        { name: 'Ouro 🥇', min: 15000 },
+        { name: 'Platina 💎', min: 50000 },
+        { name: 'Diamante 💎', min: 100000 },
+    ];
+
     const fetchUsers = async () => {
         const res = await fetch('http://localhost:3000/api/users');
         const data = await res.json();
         setUsers(data);
     };
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
+    useEffect(() => { fetchUsers(); }, []);
 
     const handleAporte = async () => {
-        if (!name || aporte < 1000) return; // aporte mínimo Bronze
+        if (!name || aporte < 1000) {
+            alert("O aporte mínimo é R$ 1000");
+            return;
+        }
         await fetch('http://localhost:3000/api/users/aporte', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, plan, aporte: Number(aporte) })
         });
-        setAporte(0); // limpa campo
+        setAporte(0);
         fetchUsers();
     };
 
@@ -41,13 +50,9 @@ function Dashboard() {
             <div className="input-group">
                 <input placeholder="Seu nome" value={name} onChange={e => setName(e.target.value)} />
                 <select value={plan} onChange={e => setPlan(e.target.value)}>
-                    <option value="Bronze">Bronze</option>
-                    <option value="Prata">Prata</option>
-                    <option value="Ouro">Ouro</option>
-                    <option value="Platina">Platina</option>
-                    <option value="Diamante">Diamante</option>
+                    {plans.map(p => <option key={p.name} value={p.name.split(' ')[0]}>{p.name}</option>)}
                 </select>
-                <input type="number" placeholder="Aporte" value={aporte} onChange={e => setAporte(e.target.value)} />
+                <input type="number" placeholder="Aporte mínimo R$ 1000" value={aporte} onChange={e => setAporte(e.target.value)} />
                 <button onClick={handleAporte}>Aportar</button>
             </div>
 
