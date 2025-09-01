@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-// Rota de demo (retorna usuário fictício)
+// Rota demo usuário
 app.get('/api/demo', (req, res) => {
     const demoUser = {
         name: 'Investidor VIP',
@@ -20,10 +20,9 @@ app.get('/api/demo', (req, res) => {
     res.json(demoUser);
 });
 
-// Todas as outras rotas direcionam para frontend
+// Todas as outras rotas vão para frontend
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
-// Inicia servidor
 app.listen(PORT, () => console.log(`SOMA AUREUM Demo rodando na porta ${PORT}`));
