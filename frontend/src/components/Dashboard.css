@@ -1,86 +1,103 @@
-/* Fundo principal com leve animação */
 .dashboard-container {
-    background: linear-gradient(135deg, #2c003e, #5d007e);
+    font-family: 'Arial', sans-serif;
+    color: #FFD700; /* dourado */
     padding: 40px 20px;
-    border-radius: 25px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-    color: #fff;
-    transition: all 0.5s ease;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #121212; /* fundo preto profundo */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
 }
 
-/* Títulos com brilho suave */
-h1, h2 {
+.dashboard-container h1, .dashboard-container h2 {
     text-align: center;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.8);
-    letter-spacing: 1px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.8);
 }
 
-/* Inputs e selects com efeito glass */
+.input-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
 .input-group input,
 .input-group select {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
-    padding: 12px 15px;
-    color: #fff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,215,0,0.5);
+    background-color: rgba(255,255,255,0.05);
+    color: #FFD700;
     font-weight: bold;
-    transition: all 0.3s ease;
 }
 
-.input-group input:focus,
-.input-group select:focus {
-    border-color: #ffd700;
-    box-shadow: 0 0 10px rgba(255,215,0,0.6);
-    outline: none;
+.input-group input::placeholder {
+    color: rgba(255,215,0,0.5);
 }
 
-/* Botão de aporte e PDF */
-.input-group button,
-.generate-pdf-btn {
-    background: linear-gradient(45deg, #ffd700, #ffcc00);
-    color: #4b0082;
+.input-group button {
+    padding: 12px 25px;
     border-radius: 50px;
+    border: none;
     font-weight: bold;
-    padding: 14px 30px;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    background: linear-gradient(45deg, #FFD700, #FFCC00);
+    color: #121212;
     transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-.input-group button:hover,
-.generate-pdf-btn:hover {
+.input-group button:hover {
     transform: scale(1.05);
-    background: linear-gradient(45deg, #ffe066, #ffda33);
+    background: linear-gradient(45deg, #FFE066, #FFD633);
 }
 
-/* Tabela estilo premium */
-.table-container table {
+.table-container {
+    margin-top: 30px;
+    overflow-x: auto;
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
-    background-color: rgba(255,255,255,0.05);
-    border-radius: 15px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 th, td {
-    padding: 14px;
+    padding: 12px;
     text-align: left;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(255,215,0,0.3);
+}
+
+th {
+    color: #FFD700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 tr:hover {
-    background-color: rgba(255,255,255,0.1);
-    transition: all 0.3s ease;
+    background-color: rgba(255,215,0,0.1);
 }
 
-/* Pequeno destaque nos badges */
-.badge {
-    padding: 5px 10px;
-    border-radius: 12px;
+.generate-pdf-btn {
+    display: block;
+    margin: 30px auto 0 auto;
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
     font-weight: bold;
-    background: rgba(255,215,0,0.2);
-    color: #ffd700;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    margin-right: 5px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #FFD700, #FFCC00);
+    color: #121212;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.generate-pdf-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #FFE066, #FFD633);
 }
