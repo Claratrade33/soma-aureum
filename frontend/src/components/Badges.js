@@ -1,10 +1,12 @@
 import React from 'react';
-import './Badges.css';
+import '../styles/Badges.css';
 
 function Badges({ user }) {
     return (
         <div className="badges-container">
-            <div className="badge">Badge do plano: <span>{user.plan}</span></div>
+            <div className="badge">
+                Badge atual: <span>{user.plan}</span>
+            </div>
         </div>
     );
 }
