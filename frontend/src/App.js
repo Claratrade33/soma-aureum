@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import axios from 'axios';
 import { jsPDF } from 'jspdf';
 
 function App() {
   const [users, setUsers] = useState([]);
 
-  // Cores inspiradas na sua numerologia/cabala
   const colors = {
     bronze: '#cd7f32',
     silver: '#c0c0c0',
     gold: '#ffd700',
     platinum: '#e5e4e2',
     diamond: '#b9f2ff',
-    primary: '#4b0082', // roxo profundo
-    secondary: '#ffcc00' // dourado suave
+    primary: '#4b0082',
+    secondary: '#ffcc00'
   };
 
-  // Planos definidos
   const plans = [
     { name: 'Bronze 🥉', min: 1000, criteria: '1 aporte realizado', benefits: ['Badge Bronze', 'Dashboard demo', 'Relatório PDF básico'], color: colors.bronze },
     { name: 'Prata 🥈', min: 5000, criteria: '2 aportes mensais', benefits: ['Badge Prata', 'Gráficos detalhados', 'Relatórios mensais'], color: colors.silver },
@@ -26,7 +23,6 @@ function App() {
     { name: 'Diamante 💎', min: 100000, criteria: 'Participação em todas experiências trimestrais', benefits: ['Badge Diamante', 'Concierge VIP', 'Eventos exclusivos', 'Relatório premium'], color: colors.diamond },
   ];
 
-  // Usuários demo
   const demoUsers = [
     { name: 'Alice', plan: 'Gold', aporte: 1000 },
     { name: 'Bob', plan: 'Silver', aporte: 500 },
@@ -35,16 +31,15 @@ function App() {
   ];
 
   useEffect(() => {
-    // Simulação de fetch do backend
     const totalAporte = demoUsers.reduce((sum, u) => sum + u.aporte, 0);
     const usersWithPatrimonio = demoUsers.map(u => ({
       ...u,
       patrimonioVirtual: u.aporte + totalAporte * 0.1 * (u.aporte / totalAporte)
     }));
     setUsers(usersWithPatrimonio);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Dependência vazia intencional, ignorando warning
 
-  // Gráfico de barras
   const data = {
     labels: users.map(u => u.name),
     datasets: [
@@ -53,7 +48,6 @@ function App() {
     ]
   };
 
-  // Gerar PDF
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -72,12 +66,10 @@ function App() {
         <p style={{ fontSize: '18px', color: '#555' }}>Visualização demo de aportes e crescimento coletivo</p>
       </header>
 
-      {/* Gráfico */}
       <section style={{ marginBottom: '50px' }}>
         <Bar data={data} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
       </section>
 
-      {/* Tabela de usuários */}
       <section style={{ marginBottom: '50px' }}>
         <h2 style={{ color: colors.primary }}>Usuários e Patrimônio Virtual</h2>
         <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '15px' }}>
@@ -102,7 +94,6 @@ function App() {
         </table>
       </section>
 
-      {/* Planos */}
       <section style={{ marginBottom: '50px' }}>
         <h2 style={{ color: colors.primary }}>Planos e Benefícios</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
