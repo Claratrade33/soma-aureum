@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   plan: { type: String, required: true },
   aporte: { type: Number, default: 0 },
   patrimonioVirtual: { type: Number, default: 0 },
-  role: { type: String, default: 'user' } // admin ou user
+  role: { type: String, default: 'user' }
 });
 
 module.exports = mongoose.model('User', userSchema);
