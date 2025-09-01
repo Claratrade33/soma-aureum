@@ -1,24 +1,22 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import 'chart.js/auto';
+import Chart from 'chart.js/auto';
 
-function InvestmentChart({ aportes }) {
+function InvestmentChart({ users }) {
+    const labels = users.map(u => u.name);
     const data = {
-        labels: aportes.map((_, i) => `Aporte ${i + 1}`),
-        datasets: [
-            {
-                label: 'Valor do aporte',
-                data: aportes,
-                borderColor: '#FFD700',
-                backgroundColor: 'rgba(255, 215, 0, 0.3)',
-                tension: 0.3
-            }
-        ]
+        labels,
+        datasets: [{
+            label: 'Patrimônio Virtual',
+            data: users.map(u => u.patrimonioVirtual),
+            backgroundColor: 'rgba(255, 215, 0, 0.5)',
+            borderColor: 'gold',
+            borderWidth: 2
+        }]
     };
 
     return (
-        <div style={{ width: '100%', maxWidth: '600px', margin: '20px auto' }}>
-            <h3>Gráfico de aportes</h3>
+        <div style={{ marginTop: "30px" }}>
             <Line data={data} />
         </div>
     );
