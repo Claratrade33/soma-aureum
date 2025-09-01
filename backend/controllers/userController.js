@@ -1,27 +1,29 @@
-const { users, User } = require('../models/userModel');
+const User = require('../models/userModel');
 
-const register = (req, res) => {
+const register = async (req, res) => {
     const { name, email, password } = req.body;
-    if(users.find(u => u.email === email)) return res.status(400).send("Usuário já existe");
-    const newUser = new User(name, email, password);
-    users.push(newUser);
+    const exists = await User.findOne({ email });
+    if(exists) return res.status(400).send("Usuário já existe");
+    const newUser = new User({ name, email, password, balance:0, aportes:[] });
+    await newUser.save();
     res.send({ message: "Cadastro realizado com sucesso!", user: newUser });
 };
 
-const login = (req, res) => {
+const login = async (req, res) => {
     const { email, password } = req.body;
-    const user = users.find(u => u.email === email && u.password === password);
+    const user = await User.findOne({ email, password });
     if(!user) return res.status(400).send("Credenciais inválidas");
     res.send({ message: "Login realizado", user });
 };
 
-const invest = (req, res) => {
+const invest = async (req, res) => {
     const { email, plan, amount } = req.body;
-    const user = users.find(u => u.email === email);
+    const user = await User.findOne({ email });
     if(!user) return res.status(400).send("Usuário não encontrado");
     user.plan = plan;
     user.balance += amount;
     user.aportes.push(amount);
+    await user.save();
     res.send({ message: `Aporte realizado no plano ${plan}`, balance: user.balance, aportes: user.aportes });
 };
 
