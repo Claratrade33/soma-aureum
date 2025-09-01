@@ -21,11 +21,13 @@ function Dashboard() {
     }, []);
 
     const handleAporte = async () => {
+        if (!name || aporte <= 0) return; // validação simples
         await fetch('http://localhost:3000/api/users/aporte', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, plan, aporte: Number(aporte) })
         });
+        setAporte(0); // limpa campo
         fetchUsers();
     };
 
