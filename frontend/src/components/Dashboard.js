@@ -3,27 +3,33 @@ import InvestmentChart from './InvestmentChart';
 import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
 
-function Dashboard({ user }) {
-    const [plan, setPlan] = useState('');
+function Dashboard() {
+    // Valores fictícios para teste sem login
+    const [plan, setPlan] = useState('Nenhum');
     const [amount, setAmount] = useState('');
-    const [aportes, setAportes] = useState(user.aportes);
+    const [aportes, setAportes] = useState([1000, 2000, 1500]); // Exemplo de histórico
+    const user = {
+        name: 'Investidor VIP',
+        balance: 5000
+    };
 
-    const handleInvest = async () => {
-        const res = await fetch('http://localhost:3000/api/users/invest', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: user.email, plan, amount: Number(amount) })
-        });
-        const data = await res.json();
-        if(res.ok) setAportes(data.aportes);
-        else alert(data);
+    const handleInvest = () => {
+        if (!plan || !amount) return alert('Escolha um plano e valor!');
+        const valor = Number(amount);
+        if (isNaN(valor) || valor <= 0) return alert('Valor inválido!');
+        
+        // Simula aporte localmente
+        const novosAportes = [...aportes, valor];
+        setAportes(novosAportes);
+        setAmount('');
+        alert(`Você aportou R$ ${valor} no plano ${plan}!`);
     };
 
     return (
         <div className="dashboard">
             <h1>Bem-vindo, {user.name}</h1>
-            <p>Plano atual: {user.plan || "Nenhum"}</p>
-            <p>Saldo: {user.balance}</p>
+            <p>Plano atual: {plan}</p>
+            <p>Saldo: R$ {user.balance}</p>
 
             <div className="invest-section">
                 <h3>Investir em plano</h3>
@@ -39,9 +45,11 @@ function Dashboard({ user }) {
                 <button onClick={handleInvest}>Aportar</button>
             </div>
 
-            <button onClick={() => generatePDF(user)}>Gerar Relatório PDF VIP</button>
+            <button onClick={() => generatePDF({ name: user.name, plan, aportes })}>
+                Gerar Relatório PDF VIP
+            </button>
 
-            <Badges user={user} />
+            <Badges user={{ plan, balance: user.balance }} />
             <InvestmentChart aportes={aportes} />
         </div>
     );
