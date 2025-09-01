@@ -1,32 +1,40 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const User = require("../models/User");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const User = require('../models/User');
 
-// Cadastro
-router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
-  const existing = await User.findOne({ email });
-  if (existing) return res.status(400).json({ message: "Email já cadastrado" });
-
-  const hashed = await bcrypt.hash(password, 10);
-  const user = new User({ name, email, password: hashed });
-  await user.save();
-  res.json({ message: "Cadastro realizado" });
+// Listar todos os usuários
+router.get('/', async (req, res) => {
+  const users = await User.find();
+  res.json(users);
 });
 
-// Login
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) return res.status(401).json({ message: "Usuário não encontrado" });
+// Adicionar aporte
+router.post('/aporte', async (req, res) => {
+  const { name, plan, aporte } = req.body;
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(401).json({ message: "Senha incorreta" });
+  if (!name || !plan || aporte <= 0) {
+    return res.status(400).json({ message: 'Dados inválidos' });
+  }
 
-  const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET || "segredo", { expiresIn: "7d" });
-  res.json({ token, user: { name: user.name, email: user.email, role: user.role } });
+  // Cria ou atualiza usuário
+  let user = await User.findOne({ name });
+  if (!user) {
+    user = new User({ name, plan, aporte, patrimonioVirtual: aporte });
+  } else {
+    user.aporte += aporte;
+  }
+  await user.save();
+
+  // Atualiza patrimônio virtual de todos proporcional ao total
+  const allUsers = await User.find();
+  const totalAporte = allUsers.reduce((sum, u) => sum + u.aporte, 0);
+
+  await Promise.all(allUsers.map(async u => {
+    u.patrimonioVirtual = u.aporte + (totalAporte * 0.1 * (u.aporte / totalAporte)); // 10% crescimento coletivo
+    await u.save();
+  }));
+
+  res.json({ message: 'Aporte registrado', user });
 });
 
 module.exports = router;
