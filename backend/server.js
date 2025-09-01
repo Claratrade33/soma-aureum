@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/soma_aureum', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -20,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/soma_aureum
 .then(() => console.log('MongoDB conectado!'))
 .catch(err => console.error('Erro ao conectar MongoDB:', err));
 
-// Criação de admin padrão
+// Criação automática de admin
 const createAdmin = async () => {
   const adminExists = await User.findOne({ role: 'admin' });
   if (!adminExists) {
@@ -31,7 +30,6 @@ const createAdmin = async () => {
 };
 createAdmin();
 
-// Rotas
 app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => console.log(`SOMA AUREUM rodando na porta ${PORT}`));
