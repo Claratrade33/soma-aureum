@@ -1,6 +1,6 @@
 import React from 'react';
-import Dashboard from './Dashboard';
-import './Dashboard.css'; // mantém o estilo preto/dourado
+import Dashboard from './components/Dashboard';
+import './components/Dashboard.css';
 
 function App() {
   return (
