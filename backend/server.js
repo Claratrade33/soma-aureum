@@ -25,13 +25,16 @@ const privateKey = process.env.PRIVATE_KEY || 'chave_privada_teste';
 const publicKey = process.env.PUBLIC_KEY || 'chave_publica_teste';
 console.log('Chaves carregadas:', publicKey, privateKey);
 
-// Servir frontend React (pasta build)
+// Servir frontend React (Dashboard direto)
 const frontendBuildPath = path.join(__dirname, '../frontend/build');
 app.use(express.static(frontendBuildPath));
 
-app.get('*', (req, res) => {
+// Rota raiz serve diretamente o Dashboard
+app.get('/', (req, res) => {
   res.sendFile(path.join(frontendBuildPath, 'index.html'));
 });
 
-// Iniciar servidor
+// Outras rotas podem ser adicionadas futuramente
+// app.use('/api/outro', outroRoutes);
+
 app.listen(PORT, () => console.log(`SOMA AUREUM rodando na porta ${PORT}`));
