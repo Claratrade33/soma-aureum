@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InvestmentChart from './InvestmentChart';
 import Badges from './Badges';
 import { generatePDF } from './ReportPDF';
 
 function Dashboard() {
-    const [plan, setPlan] = useState('Nenhum');
+    const [user, setUser] = useState(null);
+    const [plan, setPlan] = useState('');
     const [amount, setAmount] = useState('');
-    const [aportes, setAportes] = useState([1000, 2000, 1500]);
-    const user = { name: 'Investidor VIP', balance: 5000 };
+    const [aportes, setAportes] = useState([]);
+
+    useEffect(() => {
+        // Busca usuário demo
+        fetch('/api/demo')
+            .then(res => res.json())
+            .then(data => {
+                setUser(data);
+                setAportes(data.aportes);
+                setPlan(data.plan);
+            });
+    }, []);
+
+    if (!user) return <div>Carregando...</div>;
 
     const handleInvest = () => {
         if (!plan || !amount) return alert('Escolha um plano e valor!');
@@ -22,7 +35,7 @@ function Dashboard() {
     return (
         <div className="dashboard">
             <h1>Bem-vindo, {user.name}</h1>
-            <p>Plano atual: {plan}</p>
+            <p>Plano atual: {plan || 'Nenhum'}</p>
             <p>Saldo: R$ {user.balance}</p>
 
             <div className="invest-section">
