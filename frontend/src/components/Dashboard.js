@@ -21,7 +21,7 @@ function Dashboard() {
     const demoUsers = [
         { name: 'Alice', plan: 'Ouro', aporte: 1000 },
         { name: 'Bob', plan: 'Prata', aporte: 5000 },
-        { name: 'Carol', plan: 'Platina', aporte: 20000 }, // Corrigido aqui
+        { name: 'Carol', plan: 'Platina', aporte: 20000 }, // Corrigido
         { name: 'David', plan: 'Ouro', aporte: 15000 },
     ];
 
@@ -34,12 +34,11 @@ function Dashboard() {
         setUsers(usersWithPatrimonio);
     }, []);
 
-    const handleAporte = async () => {
+    const handleAporte = () => {
         if (!name || aporte < 1000) {
             alert("O aporte mínimo é R$ 1000");
             return;
         }
-        // Aqui você poderia chamar sua API real
         const newUser = { name, plan, aporte: Number(aporte), patrimonioVirtual: aporte };
         setUsers(prev => [...prev, newUser]);
         setAporte(0);
