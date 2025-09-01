@@ -20,13 +20,8 @@ function InvestmentChart({ aportes }) {
                     }]
                 },
                 options: {
-                    plugins: {
-                        legend: { labels: { color: '#111' } }
-                    },
-                    scales: {
-                        x: { ticks: { color: '#111' } },
-                        y: { ticks: { color: '#111' } }
-                    }
+                    plugins: { legend: { labels: { color: '#111' } } },
+                    scales: { x: { ticks: { color: '#111' } }, y: { ticks: { color: '#111' } } }
                 }
             });
         }
